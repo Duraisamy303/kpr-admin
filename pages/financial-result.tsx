@@ -241,6 +241,7 @@ const FinancialResult = () => {
             }
         );
     };
+    console.log('state.selectedTab: ', state.selectedTab);
 
     return (
         <>
@@ -248,11 +249,13 @@ const FinancialResult = () => {
                 <div className="flex items-center gap-5">
                     <h5 className="text-lg font-semibold dark:text-white-light">Financial Result</h5>
                 </div>
-                <div>
-                    <button type="button" className="btn btn-primary  w-full md:mb-0 md:w-auto" onClick={() => setState({ isOpen: true, update: false, name: '' })}>
-                        + Create
-                    </button>
-                </div>
+                {state.selectedTab !== 3 && state.selectedTab !== 4 && (
+                    <div>
+                        <button type="button" className="btn btn-primary w-full md:mb-0 md:w-auto" onClick={() => setState({ isOpen: true, update: false, name: '' })}>
+                            + Create
+                        </button>
+                    </div>
+                )}
             </div>
             <div className="mt-5 grid w-full grid-cols-12 gap-3 ">
                 <div className="col-span-3 grid ">
