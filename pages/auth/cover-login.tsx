@@ -15,7 +15,6 @@ import IconFacebookCircle from '@/components/Icon/IconFacebookCircle';
 import IconTwitter from '@/components/Icon/IconTwitter';
 import IconGoogle from '@/components/Icon/IconGoogle';
 import { useMutation } from '@apollo/client';
-import { LOGIN } from '@/query/auth';
 
 const LoginCover = () => {
     const [formData, setFormData] = useState({
@@ -28,14 +27,9 @@ const LoginCover = () => {
 
     const router = useRouter();
 
-    const [addFormData] = useMutation(LOGIN);
 
     const submitForm = async () => {
-        console.log('first')
-        const { data } = await addFormData({
-            variables: { email: formData.email, password: formData.password },
-        });
-        console.log("data: ", data);
+      
 
         // e.preventDefault();
         // router.push('/');
