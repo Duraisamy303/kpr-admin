@@ -16,7 +16,7 @@ import Select from 'react-select';
 import Swal from 'sweetalert2';
 import PrivateRouter from '@/components/Layouts/PrivateRouter';
 
-const CorporateGovernance=()=> {
+const CorporateGovernance = () => {
     const [state, setState] = useSetState({
         isOpen: false,
         files: [{ subtitle: '', file: null }],
@@ -30,6 +30,8 @@ const CorporateGovernance=()=> {
         page: 1,
         PAGE_SIZES: [10, 20, 30, 50, 100],
         pageSize: 10,
+        reference: '',
+        subject: '',
     });
 
     useEffect(() => {
@@ -99,6 +101,8 @@ const CorporateGovernance=()=> {
             });
         });
         formData.append('title', state.name);
+        formData.append('ref', state.reference);
+        formData.append('sub', state.subject);
         formData.append('yearselection', state.yearSection.label);
         formData.append('_wpcf7', '3696');
         formData.append('_wpcf7_unit_tag', 'wpcf7-f3650-p3651-o1');
@@ -111,7 +115,7 @@ const CorporateGovernance=()=> {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setState({ isOpen: false, name: '', yearSection: '', files: [{ subtitle: '', file: null }], loading: false, nameError: '', yearError: '' });
+            setState({ isOpen: false, name: '', yearSection: '', files: [{ subtitle: '', file: null }], loading: false, nameError: '', yearError: '', reference: '', subject: '' });
             getData();
             Success(res?.data?.message);
         } catch (error) {
@@ -277,13 +281,13 @@ const CorporateGovernance=()=> {
             <Modal
                 addHeader={`Add`}
                 open={state.isOpen}
-                close={() => setState({ isOpen: false, errorMessage: '', name: '', nameError: '', yearError: '', yearSection: '', files: [{ subtitle: '', file: null }] })}
+                close={() => setState({ isOpen: false, errorMessage: '', name: '', nameError: '', yearError: '', yearSection: '', files: [{ subtitle: '', file: null }], reference: '', subject: '' })}
                 renderComponent={() => (
                     <div className=" p-5">
                         <form onSubmit={handleSubmit}>
                             <div className="">
                                 <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                    Title
+                                    Title <span className="text-red-500">*</span>
                                 </label>
                                 <input
                                     name="name"
@@ -295,10 +299,37 @@ const CorporateGovernance=()=> {
                                     onChange={(e) => setState({ name: e.target.value, nameError: '' })}
                                 />
                                 {state.nameError && <div className="mb-2 text-red-500">{state.nameError}</div>}
-
+                                <div className="mt-4">
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                        Reference
+                                    </label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        id="name"
+                                        placeholder="Enter Reference"
+                                        className="form-input mt-1 block w-full"
+                                        value={state.reference}
+                                        onChange={(e) => setState({ reference: e.target.value })}
+                                    />
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                        Subject
+                                    </label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        id="name"
+                                        placeholder="Enter Subject"
+                                        className="form-input mt-1 block w-full"
+                                        value={state.subject}
+                                        onChange={(e) => setState({ subject: e.target.value })}
+                                    />
+                                </div>
                                 <div className=" mt-3" style={{ width: '100%' }}>
                                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                        Year
+                                        Year <span className="text-red-500">*</span>
                                     </label>
                                     <Select
                                         placeholder="Select an option"
@@ -313,7 +344,7 @@ const CorporateGovernance=()=> {
                             {state.files?.length > 0 && (
                                 <div className="mt-4">
                                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                        Files
+                                        Files <span className="text-red-500">*</span>
                                     </label>
                                     {state.files.map((item, index) => (
                                         <div key={index} className={`mb-3 flex items-center space-x-2`}>
@@ -370,5 +401,5 @@ const CorporateGovernance=()=> {
             />
         </div>
     );
-}
+};
 export default PrivateRouter(CorporateGovernance);

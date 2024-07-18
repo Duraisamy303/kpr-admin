@@ -48,6 +48,8 @@ const FinancialResult = () => {
         name: '',
         yearError: '',
         nameError: '',
+        reference: '',
+        subject: '',
     });
 
     useEffect(() => {
@@ -119,6 +121,7 @@ const FinancialResult = () => {
             setState({ nameError: 'Please enter title ', loading: false });
             return;
         }
+
         if (state.yearSection == '') {
             setState({ yearError: 'Please select year ', loading: false });
             return;
@@ -147,6 +150,8 @@ const FinancialResult = () => {
             });
         });
         formData.append('title', state.name);
+        formData.append('ref', state.reference);
+        formData.append('sub', state.subject);
         formData.append('yearselection', state.yearSection.label);
         formData.append('_wpcf7', assignId());
         formData.append('_wpcf7_unit_tag', 'wpcf7-f3650-p3651-o1');
@@ -159,7 +164,7 @@ const FinancialResult = () => {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setState({ isOpen: false, name: '', yearSection: '', files: [{ subtitle: '', file: null }], loading: false, nameError: '', yearError: '' });
+            setState({ isOpen: false, name: '', yearSection: '', files: [{ subtitle: '', file: null }], loading: false, nameError: '', yearError: '', reference: '', subject: '' });
             getData();
             Success(res?.data?.message);
         } catch (error) {
@@ -334,28 +339,57 @@ const FinancialResult = () => {
             <Modal
                 addHeader={`Add`}
                 open={state.isOpen}
-                close={() => setState({ isOpen: false, name: '', nameError: '', yearError: '', yearSection: '', files: [{ subtitle: '', file: null }], errorMessage: '' })}
+                close={() => setState({ isOpen: false, name: '', nameError: '', yearError: '', yearSection: '', files: [{ subtitle: '', file: null }], errorMessage: '', reference: '', subject: '' })}
                 renderComponent={() => (
                     <div className=" p-5">
                         <form onSubmit={handleSubmit}>
                             <div className="">
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                    Title
-                                </label>
-                                <input
-                                    name="name"
-                                    type="text"
-                                    id="name"
-                                    placeholder="Enter Title"
-                                    className="form-input mt-1 block w-full"
-                                    value={state.name}
-                                    onChange={(e) => setState({ name: e.target.value, nameError: '' })}
-                                />
-                                {state.nameError && <div className="mb-2 text-red-500">{state.nameError}</div>}
-
+                                <div>
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                        Title <span className="text-red-500">*</span>
+                                    </label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        id="name"
+                                        placeholder="Enter Title"
+                                        className="form-input mt-1 block w-full"
+                                        value={state.name}
+                                        onChange={(e) => setState({ name: e.target.value, nameError: '' })}
+                                    />
+                                    {state.nameError && <div className="mb-2 text-red-500">{state.nameError}</div>}
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                        Reference
+                                    </label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        id="name"
+                                        placeholder="Enter Reference"
+                                        className="form-input mt-1 block w-full"
+                                        value={state.reference}
+                                        onChange={(e) => setState({ reference: e.target.value })}
+                                    />
+                                </div>
+                                <div className="mt-4">
+                                    <label htmlFor="name" className="block text-sm font-medium text-gray-700">
+                                        Subject
+                                    </label>
+                                    <input
+                                        name="name"
+                                        type="text"
+                                        id="name"
+                                        placeholder="Enter Subject"
+                                        className="form-input mt-1 block w-full"
+                                        value={state.subject}
+                                        onChange={(e) => setState({ subject: e.target.value })}
+                                    />
+                                </div>
                                 <div className=" mt-3" style={{ width: '100%' }}>
                                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                        Year
+                                        Year <span className="text-red-500">*</span>
                                     </label>
                                     <Select
                                         placeholder="Select an option"
@@ -370,7 +404,7 @@ const FinancialResult = () => {
                             {state.files?.length > 0 && (
                                 <div className="mt-4">
                                     <label htmlFor="name" className="block text-sm font-medium text-gray-700">
-                                        Files
+                                        Files <span className="text-red-500">*</span>
                                     </label>
                                     {state.files.map((item, index) => (
                                         <div key={index} className={`mb-3 flex items-center space-x-2`}>
