@@ -277,10 +277,16 @@ const PolicyInfo = () => {
                                     render: (item: any) =>
                                         item?.link?.map((item) => (
                                             <div className="flex flex-row ">
-                                                <a href={item['file-pdf-cfdb7_file']} target="_blank" rel="noopener noreferrer">
-                                                    <Image src={pdf} width={30} height={30} alt="Picture of the author" />
-                                                    Download
-                                                </a>
+                                                {item['file-pdf-cfdb7_file']?.endsWith('.mp3') ? (
+                                                    <a href={item['file-pdf-cfdb7_file']} target="_blank" rel="noopener noreferrer">
+                                                        Concall
+                                                    </a>
+                                                ) : (
+                                                    <a href={item['file-pdf-cfdb7_file']} target="_blank" rel="noopener noreferrer">
+                                                        <Image src={pdf} width={30} height={30} alt="Picture of the author" />
+                                                        Download
+                                                    </a>
+                                                )}
                                             </div>
                                         )),
                                 },
@@ -397,7 +403,7 @@ const PolicyInfo = () => {
                                                     <input
                                                         type="file"
                                                         className="rtl:file-ml-5 form-input p-0 file:border-0 file:bg-primary/90 file:px-4 file:py-2 file:font-semibold file:text-white file:hover:bg-primary ltr:file:mr-5"
-                                                        accept=".pdf"
+                                                        accept=""
                                                         onChange={(e) => handleFileChange(e, index)}
                                                     />
                                                 )}
