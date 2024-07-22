@@ -16,6 +16,8 @@ import IconTwitter from '@/components/Icon/IconTwitter';
 import IconGoogle from '@/components/Icon/IconGoogle';
 import { useMutation } from '@apollo/client';
 import axios from 'axios';
+import IconX from '@/components/Icon/IconX';
+import Swal from 'sweetalert2';
 
 const LoginBoxed = () => {
     const [formData, setFormData] = useState({
@@ -23,6 +25,9 @@ const LoginBoxed = () => {
         password: '',
         subscribe: false,
     });
+
+    const [emailErrorMessage, setEmailErrorMessage] = useState('');
+    const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -32,9 +37,27 @@ const LoginBoxed = () => {
 
     const submitForm = async () => {
         try {
+            // let data = JSON.stringify({
+            //     username: 'kprmill',
+            //     password: 'yDn3IC1lCuI&)yEFCARssGGg',
+            // });
+
+            if (formData?.email == '') {
+                setEmailErrorMessage('Please enter email');
+            } else {
+                setEmailErrorMessage('');
+            }
+
+            if (formData?.password == '') {
+                setPasswordErrorMessage('Please enter password');
+            } else {
+                setPasswordErrorMessage('');
+            }
+
+            console.log('formData', formData);
             let data = JSON.stringify({
-                username: 'kprmill',
-                password: 'yDn3IC1lCuI&)yEFCARssGGg',
+                username: formData.email,
+                password: formData.password,
             });
 
             let config = {
@@ -48,13 +71,27 @@ const LoginBoxed = () => {
             };
 
             const response = await axios.request(config);
+            console.log('✌️response --->', response);
             console.log(response.data);
             localStorage.setItem('kprToken', response.data.token);
             router.replace('/');
         } catch (error) {
             console.error(error);
+            const toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+            });
+            toast.fire({
+                icon: 'error',
+                title: 'Signed in successfully',
+                padding: '10px 20px',
+            });
         }
     };
+
+    console.log('');
 
     const isRtl = useSelector((state: any) => state.themeConfig.rtlClass) === 'rtl' ? true : false;
 
@@ -158,6 +195,7 @@ const LoginBoxed = () => {
                                             <IconMail fill={true} />
                                         </span>
                                     </div>
+                                    {emailErrorMessage && <p className="text-red-500">{emailErrorMessage}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="Password">Password</label>
@@ -175,6 +213,7 @@ const LoginBoxed = () => {
                                             <IconLockDots fill={true} />
                                         </span>
                                     </div>
+                                    {passwordErrorMessage && <p className="text-red-500">{passwordErrorMessage}</p>}
                                 </div>
                             </form>
 
