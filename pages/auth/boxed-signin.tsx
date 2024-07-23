@@ -21,12 +21,12 @@ import Swal from 'sweetalert2';
 
 const LoginBoxed = () => {
     const [formData, setFormData] = useState({
-        email: '',
+        userName: '',
         password: '',
         subscribe: false,
     });
 
-    const [emailErrorMessage, setEmailErrorMessage] = useState('');
+    const [userNameErrorMessage, setuserNameErrorMessage] = useState('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
 
     const dispatch = useDispatch();
@@ -35,17 +35,18 @@ const LoginBoxed = () => {
     });
     const router = useRouter();
 
-    const submitForm = async () => {
+    const submitForm = async (e:any) => {
+        e.preventDefault();
         try {
             // let data = JSON.stringify({
             //     username: 'kprmill',
             //     password: 'yDn3IC1lCuI&)yEFCARssGGg',
             // });
 
-            if (formData?.email == '') {
-                setEmailErrorMessage('Please enter email');
+            if (formData?.userName == '') {
+                setuserNameErrorMessage('Please enter userName');
             } else {
-                setEmailErrorMessage('');
+                setuserNameErrorMessage('');
             }
 
             if (formData?.password == '') {
@@ -56,7 +57,7 @@ const LoginBoxed = () => {
 
             console.log('formData', formData);
             let data = JSON.stringify({
-                username: formData.email,
+                username: formData.userName,
                 password: formData.password,
             });
 
@@ -78,17 +79,7 @@ const LoginBoxed = () => {
             console.log('error', error?.response?.data?.message);
 
             showMessage(error?.response?.data?.message, 'error');
-            // const toast = Swal.mixin({
-            //     toast: true,
-            //     position: 'top',
-            //     showConfirmButton: false,
-            //     timer: 3000,
-            // });
-            // toast.fire({
-            //     icon: 'error',
-            //     title: error?.response?.data?.message,
-            //     padding: '10px 20px',
-            // });
+          
         }
     };
 
@@ -190,26 +181,26 @@ const LoginBoxed = () => {
                         <div className="mx-auto w-full max-w-[440px]">
                             <div className="mb-10">
                                 <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign in</h1>
-                                <p className="text-base font-bold leading-normal text-white-dark">Enter your email and password to login</p>
+                                <p className="text-base font-bold leading-normal text-white-dark">Enter your userName and password to login</p>
                             </div>
-                            <form className="space-y-5 dark:text-white">
+                            <form className="space-y-5 dark:text-white" onSubmit={submitForm}>
                                 <div>
-                                    <label htmlFor="Email">Email</label>
+                                    <label htmlFor="userName">User Name</label>
                                     <div className="relative text-white-dark">
                                         <input
-                                            id="Email"
-                                            type="email"
-                                            name="email"
-                                            value={formData.email}
+                                            id="userName"
+                                            type="text"
+                                            name="userName"
+                                            value={formData.userName}
                                             onChange={handleChange}
-                                            placeholder="Enter Email"
+                                            placeholder="Enter User Name"
                                             className="form-input ps-10 placeholder:text-white-dark"
                                         />
                                         <span className="absolute start-4 top-1/2 -translate-y-1/2">
                                             <IconMail fill={true} />
                                         </span>
                                     </div>
-                                    {emailErrorMessage && <p className="text-red-500">{emailErrorMessage}</p>}
+                                    {userNameErrorMessage && <p className="text-red-500">{userNameErrorMessage}</p>}
                                 </div>
                                 <div>
                                     <label htmlFor="Password">Password</label>
@@ -229,11 +220,14 @@ const LoginBoxed = () => {
                                     </div>
                                     {passwordErrorMessage && <p className="text-red-500">{passwordErrorMessage}</p>}
                                 </div>
-                            </form>
-
-                            <button onClick={() => submitForm()} className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
+                            
+                            
+                                <button  className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
                                 Sign in
                             </button>
+                            </form>
+
+                           
 
                             {/* <div className="text-center dark:text-white mt-5">
                                 Don't have an account ?&nbsp;
