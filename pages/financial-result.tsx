@@ -55,6 +55,7 @@ const FinancialResult = () => {
     useEffect(() => {
         getData();
     }, [state.selectedTab, path]);
+
     useEffect(() => {
         if (path) {
             setState({ selectedTab: Number(path) });
@@ -249,7 +250,6 @@ const FinancialResult = () => {
             }
         );
     };
-    console.log('state.selectedTab: ', state.selectedTab);
 
     return (
         <>
@@ -257,9 +257,10 @@ const FinancialResult = () => {
                 <div className="flex items-center gap-5">
                     <h5 className="text-lg font-semibold dark:text-white-light">Financial Result</h5>
                 </div>
+                {/* <Select placeholder="Select Year" value={state.yearSection} onChange={(val) => setState({ yearSection: val, yearError: '' })} options={yearOptions} isSearchable={true} /> */}
                 {state.selectedTab !== 3 && state.selectedTab !== 4 && (
                     <div>
-                        <button type="button" className="btn btn-primary w-full md:mb-0 md:w-auto" onClick={() => setState({ isOpen: true, update: false, name: '' })}>
+                        <button type="button" className="btn bg-[#642a10] text-white  w-full md:mb-0 md:w-auto" onClick={() => setState({ isOpen: true, update: false, name: '' })}>
                             + Create
                         </button>
                     </div>
@@ -273,7 +274,7 @@ const FinancialResult = () => {
                                 key={index}
                                 onClick={() => setState({ selectedTab: index })}
                                 className={`dark:hover:text-primary-dark border-1 cursor-pointer  border border-gray-300 px-4 py-2 ${
-                                    state.selectedTab === index ? 'bg-primary text-white' : 'bg-white text-black'
+                                    state.selectedTab === index ? 'bg-[#642a10] text-white' : 'bg-white text-black'
                                 }`}
                             >
                                 <div className="text-md text-bold cursor-pointer text-sm">{link}</div>
@@ -422,7 +423,7 @@ const FinancialResult = () => {
                                             ) : (
                                                 <input
                                                     type="file"
-                                                    className="rtl:file-ml-5 form-input p-0 file:border-0 file:bg-primary/90 file:px-4 file:py-2 file:font-semibold file:text-white file:hover:bg-primary ltr:file:mr-5"
+                                                    className="rtl:file-ml-5 form-input p-0 file:border-0 file:bg-[#642a10] text-white  file:px-4 file:py-2 file:font-semibold file:text-white file:hover:bg-[#642a10] ltr:file:mr-5"
                                                     accept=""
                                                     onChange={(e) => handleFileChange(e, index)}
                                                 />
@@ -453,14 +454,14 @@ const FinancialResult = () => {
                             {state.errorMessage && <div className="mb-2 text-red-500">{state.errorMessage}</div>}
                             {state.files?.length < 12 && (
                                 <div className="flex ">
-                                    <button type="button" className="btn btn-primary" onClick={handleAddFile}>
+                                    <button type="button" className="btn bg-[#642a10] text-white " onClick={handleAddFile}>
                                         Add File
                                     </button>
                                 </div>
                             )}
 
                             <div className="flex justify-end">
-                                <button type="submit" className="btn btn-primary !mt-6">
+                                <button type="submit" className="btn bg-[#642a10] text-white  !mt-6">
                                     {state.loading ? <IconLoader className="mr-2 h-4 w-4 animate-spin" /> : 'Submit'}
                                 </button>
                             </div>

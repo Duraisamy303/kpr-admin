@@ -94,7 +94,7 @@ const Sidebar = () => {
                 <div className="h-full bg-white dark:bg-black">
                     <div className="flex items-center justify-center px-4 py-3">
                         <Link href="/financial-result" className="main-logo flex shrink-0 items-center">
-                            <img className="w-30 ml-[5px] flex-none" src="/assets/images/logo.png" alt="logo" />
+                            <img className=" h-[75px] flex-none object-cover" src="/assets/images/logo.png" alt="logo" />
                         </Link>
 
                         <button
