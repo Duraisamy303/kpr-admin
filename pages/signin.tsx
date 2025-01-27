@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useEffect, useState } from 'react';
-import { setPageTitle, toggleLocale, toggleRTL } from '../../store/themeConfigSlice';
+import { setPageTitle, toggleLocale, toggleRTL } from '../store/themeConfigSlice';
 import { useRouter } from 'next/router';
 import BlankLayout from '@/components/Layouts/BlankLayout';
 import Dropdown from '@/components/Dropdown';
@@ -18,6 +18,7 @@ import { useMutation } from '@apollo/client';
 import axios from 'axios';
 import IconX from '@/components/Icon/IconX';
 import Swal from 'sweetalert2';
+import IconLoader from '@/components/Icon/IconLoader';
 
 const LoginBoxed = () => {
     const [formData, setFormData] = useState({
@@ -28,6 +29,7 @@ const LoginBoxed = () => {
 
     const [userNameErrorMessage, setuserNameErrorMessage] = useState('');
     const [passwordErrorMessage, setPasswordErrorMessage] = useState('');
+    const [loading, setLoading] = useState(false);
 
     const dispatch = useDispatch();
     useEffect(() => {
@@ -35,9 +37,10 @@ const LoginBoxed = () => {
     });
     const router = useRouter();
 
-    const submitForm = async (e:any) => {
+    const submitForm = async (e: any) => {
         e.preventDefault();
         try {
+            setLoading(true);
             // let data = JSON.stringify({
             //     username: 'kprmill',
             //     password: 'yDn3IC1lCuI&)yEFCARssGGg',
@@ -73,13 +76,14 @@ const LoginBoxed = () => {
 
             const response = await axios.request(config);
             localStorage.setItem('kprToken', response.data.token);
+            setLoading(false);
             showMessage('Login successfully', 'success');
             router.replace('/');
         } catch (error) {
             console.log('error', error?.response?.data?.message);
+            setLoading(false);
 
             showMessage(error?.response?.data?.message, 'error');
-          
         }
     };
 
@@ -134,7 +138,7 @@ const LoginBoxed = () => {
                 <img src="/assets/images/auth/coming-soon-object3.png" alt="image" className="absolute right-0 top-0 h-[300px]" />
                 <img src="/assets/images/auth/polygon-object.svg" alt="image" className="absolute bottom-0 end-[28%]" />
                 <div className="relative w-full max-w-[870px] rounded-md bg-[linear-gradient(45deg,#fff9f9_0%,rgba(255,255,255,0)_25%,rgba(255,255,255,0)_75%,_#fff9f9_100%)] p-2 dark:bg-[linear-gradient(52.22deg,#0E1726_0%,rgba(14,23,38,0)_18.66%,rgba(14,23,38,0)_51.04%,rgba(14,23,38,0)_80.07%,#0E1726_100%)]">
-                    <div className="relative flex flex-col justify-center rounded-md bg-white/60 px-6 py-20 backdrop-blur-lg dark:bg-black/50 lg:min-h-[500px]">
+                    <div className="relative flex flex-col justify-center rounded-md bg-white/60 px-6 py-15 backdrop-blur-lg dark:bg-black/50 lg:min-h-[500px]">
                         <div className="absolute end-6 top-6">
                             <div className="dropdown">
                                 {flag && (
@@ -179,8 +183,11 @@ const LoginBoxed = () => {
                             </div>
                         </div>
                         <div className="mx-auto w-full max-w-[440px]">
+                            <div className="main-logo flex items-center justify-center mb-5">
+                                <img className=" h-[75px] " src="/assets/images/logo.png" alt="logo" />
+                            </div>
                             <div className="mb-10">
-                                <h1 className="text-3xl font-extrabold uppercase !leading-snug text-primary md:text-4xl">Sign in</h1>
+                                <h1 className="text-3xl font-extrabold uppercase !leading-snug text-[#642a10] md:text-4xl">Sign in</h1>
                                 <p className="text-base font-bold leading-normal text-white-dark">Enter your userName and password to login</p>
                             </div>
                             <form className="space-y-5 dark:text-white" onSubmit={submitForm}>
@@ -220,14 +227,9 @@ const LoginBoxed = () => {
                                     </div>
                                     {passwordErrorMessage && <p className="text-red-500">{passwordErrorMessage}</p>}
                                 </div>
-                            
-                            
-                                <button  className="btn btn-gradient !mt-6 w-full border-0 uppercase shadow-[0_10px_20px_-10px_rgba(67,97,238,0.44)]">
-                                Sign in
-                            </button>
-                            </form>
 
-                           
+                                <button className="btn  !mt-6 w-full border-0 bg-[#642a10] uppercase text-white">{loading ? <IconLoader className="mr-2 h-4 w-4 animate-spin" /> : 'Sign in'}</button>
+                            </form>
 
                             {/* <div className="text-center dark:text-white mt-5">
                                 Don't have an account ?&nbsp;

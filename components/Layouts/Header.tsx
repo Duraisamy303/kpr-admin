@@ -169,7 +169,7 @@ const Header = () => {
     const signOutClick = () => {
         localStorage.removeItem('kprToken');
 
-        router.replace('/auth/boxed-signin');
+        router.replace('/signin');
     };
     return (
         <header className={`z-40 ${themeConfig.semidark && themeConfig.menu === 'horizontal' ? 'dark' : ''}`}>
