@@ -8,7 +8,7 @@ const PrivateRouter = (WrappedComponent:any) => {
     useEffect(() => {
       const token = localStorage.getItem('kprToken');
       if (!token) {
-        const baseUrl = `${window.location.origin}/auth/boxed-signin`;
+        const baseUrl = `${window.location.origin}/signin`;
         router.replace(baseUrl); // Redirect to login if no token is found
       }
     }, [router]);
